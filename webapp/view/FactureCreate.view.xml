@@ -1,0 +1,44 @@
+<mvc:View controllerName="zyeg.controller.FactureCreate"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+    <Page id="createPage" title="Creation Facture" showNavButton="true" navButtonPress="onNavBack" busy="{create>/busy}">
+        <content>
+            <VBox id="createContentBox" width="100%">
+                <MessageStrip id="createInfoStrip" text="Selection du client obligatoire avant creation." type="Information" showIcon="true"/>
+                <f:SimpleForm id="createForm" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+                    <f:content>
+                        <Label text="Client" required="true" labelFor="createClientSelect"/>
+                        <Select id="createClientSelect" selectedKey="{create>/Clientid}" items="{create>/clients}" change="onClientChange" width="100%" forceSelection="false">
+                            <items>
+                                <core:Item key="{create>Id}" text="{= ${create>Prenom} + ' ' + ${create>Nom} }"/>
+                            </items>
+                        </Select>
+
+                        <Label text="Nom client" labelFor="createClientNameInput"/>
+                        <Input id="createClientNameInput" value="{create>/Clientfullname}" editable="false"/>
+
+                        <Label text="Voiture" labelFor="createVoitureSelect"/>
+                        <Select id="createVoitureSelect" selectedKey="{create>/Voitureid}" items="{create>/voitures}" width="100%" forceSelection="false">
+                            <items>
+                                <core:Item key="{create>Id}" text="{= ${create>Matricule} + ' - ' + ${create>Marque} }"/>
+                            </items>
+                        </Select>
+
+                        <Label text="Montant" required="true" labelFor="createAmountInput"/>
+                        <Input id="createAmountInput" value="{create>/Amount}" type="Text" valueLiveUpdate="true" liveChange="onCreateFieldLiveChange"/>
+
+                        <Label text="Devise" required="true" labelFor="createDeviseInput"/>
+                        <Input id="createDeviseInput" value="{create>/Devise}" maxLength="5" placeholder="EUR" valueLiveUpdate="true" liveChange="onCreateFieldLiveChange"/>
+                    </f:content>
+                </f:SimpleForm>
+
+                <HBox id="createActionRow" justifyContent="End" wrap="Wrap">
+                    <Button text="Annuler" press="onNavBack"/>
+                    <Button text="Creer" type="Emphasized" press="onCreateFacture"/>
+                </HBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,25 @@
+{
+	"changes": {
+		"changes": [],
+		"contexts": [],
+		"settings": {
+			"isKeyUser": false,
+			"isAtoAvailable": false,
+			"isAtoEnabled": false
+		}
+	},
+	"comp": {
+		"variants": [],
+		"changes": [],
+		"defaultVariants": [],
+		"standardVariants": []
+	},
+	"ui2personalization": {
+		"changes": []
+	},
+	"settings": {
+		"isKeyUser": false,
+		"isAtoAvailable": false,
+		"isAtoEnabled": false
+	}
+}

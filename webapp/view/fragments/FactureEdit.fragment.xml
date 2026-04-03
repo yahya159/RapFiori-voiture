@@ -1,0 +1,40 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+    <Dialog id="factureEditDialog" title="Modifier facture" contentWidth="36rem" stretch="{device>/system/phone}" class="zyegFormDialog">
+        <content>
+            <VBox id="factureEditContent" width="100%" class="zyegDialogBody">
+                <f:SimpleForm id="factureEditForm" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+                    <f:content>
+                        <Label text="Client" required="true" labelFor="factureEditClientSelect"/>
+                        <Select id="factureEditClientSelect" selectedKey="{ui>/factureEdit/data/Clientid}" items="{ui>/factureEdit/clients}" change="onFactureEditClientChange" width="100%" forceSelection="false">
+                            <items>
+                                <core:Item key="{ui>Id}" text="{= ${ui>Prenom} + ' ' + ${ui>Nom} }"/>
+                            </items>
+                        </Select>
+
+                        <Label text="Nom client" labelFor="factureEditClientNameInput"/>
+                        <Input id="factureEditClientNameInput" value="{ui>/factureEdit/data/Clientfullname}" editable="false"/>
+
+                        <Label text="Voiture" labelFor="factureEditVoitureSelect"/>
+                        <Select id="factureEditVoitureSelect" selectedKey="{ui>/factureEdit/data/Voitureid}" items="{ui>/factureEdit/voitures}" width="100%" forceSelection="false">
+                            <items>
+                                <core:Item key="{ui>Id}" text="{= ${ui>Matricule} + ' - ' + ${ui>Marque} }"/>
+                            </items>
+                        </Select>
+
+                        <Label text="Montant" required="true" labelFor="factureEditAmountInput"/>
+                        <Input id="factureEditAmountInput" value="{ui>/factureEdit/data/Amount}" type="Text" valueLiveUpdate="true" liveChange="onFactureEditFieldLiveChange"/>
+
+                        <Label text="Devise" required="true" labelFor="factureEditDeviseInput"/>
+                        <Input id="factureEditDeviseInput" value="{ui>/factureEdit/data/Devise}" maxLength="5" valueLiveUpdate="true" liveChange="onFactureEditFieldLiveChange"/>
+                    </f:content>
+                </f:SimpleForm>
+            </VBox>
+        </content>
+        <beginButton>
+            <Button text="Enregistrer" type="Emphasized" press="onFactureEditSave"/>
+        </beginButton>
+        <endButton>
+            <Button text="Annuler" press="onFactureEditCancel"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

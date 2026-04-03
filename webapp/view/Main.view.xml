@@ -1,0 +1,294 @@
+<mvc:View controllerName="zyeg.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Page id="page" title="{i18n>title}" showHeader="false" busy="{ui>/busy}">
+        <content>
+            <VBox id="shell" width="100%">
+                <VBox id="hero">
+                    <HBox id="heroBar" justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap">
+                        <VBox id="heroCopy">
+                            <Text id="eyebrow" text="Centre de gestion"/>
+                            <Title id="heroTitle" text="{i18n>title}" level="H1"/>
+                            <Text id="heroText" text="Pilotage des clients, employés, factures et voitures depuis un seul écran." wrapping="true"/>
+                        </VBox>
+                        <Button id="refreshAllButton" text="Rafraîchir tout" type="Emphasized" icon="sap-icon://refresh" press="onRefreshAll"/>
+                    </HBox>
+                    <FlexBox id="kpiGrid" wrap="Wrap" renderType="Div" justifyContent="SpaceBetween">
+                        <VBox id="clientsKpiCard">
+                            <Text id="clientsKpiLabel" text="Clients"/>
+                            <Text id="clientsKpiValue" text="{ui>/counts/clients}"/>
+                        </VBox>
+                        <VBox id="employesKpiCard">
+                            <Text id="employesKpiLabel" text="Employés"/>
+                            <Text id="employesKpiValue" text="{ui>/counts/employes}"/>
+                        </VBox>
+                        <VBox id="facturesKpiCard">
+                            <Text id="facturesKpiLabel" text="Factures"/>
+                            <Text id="facturesKpiValue" text="{ui>/counts/factures}"/>
+                        </VBox>
+                        <VBox id="voituresKpiCard">
+                            <Text id="voituresKpiLabel" text="Voitures"/>
+                            <Text id="voituresKpiValue" text="{ui>/counts/voitures}"/>
+                        </VBox>
+                    </FlexBox>
+                </VBox>
+
+                <MessageStrip id="messageStrip" visible="{= !!${ui>/message} }" text="{ui>/message}" type="{ui>/messageType}" showIcon="true"/>
+
+                <IconTabBar id="entityTabs" expanded="true">
+                    <items>
+                        <IconTabFilter text="{= 'Clients (' + ${ui>/counts/clients} + ')' }" icon="sap-icon://group-2" key="clients">
+                            <VBox id="clientsSection">
+                                <Toolbar id="clientsToolbar">
+                                    <Title text="Clients" level="H2"/>
+                                    <ToolbarSpacer/>
+                                    <Button text="Nouveau" type="Emphasized" icon="sap-icon://add" press="onCreatePress">
+                                        <customData>
+                                            <core:CustomData key="entity" value="clients"/>
+                                        </customData>
+                                    </Button>
+                                    <Button text="Modifier" icon="sap-icon://edit" press="onEditPress">
+                                        <customData>
+                                            <core:CustomData key="entity" value="clients"/>
+                                        </customData>
+                                    </Button>
+                                    <Button text="Supprimer" icon="sap-icon://delete" press="onDeletePress">
+                                        <customData>
+                                            <core:CustomData key="entity" value="clients"/>
+                                        </customData>
+                                    </Button>
+                                    <Button text="Rafraîchir" icon="sap-icon://refresh" press="onRefreshPress">
+                                        <customData>
+                                            <core:CustomData key="entity" value="clients"/>
+                                        </customData>
+                                    </Button>
+                                </Toolbar>
+                                <Table id="clientTable" items="{ui>/clients}" mode="SingleSelectLeft" growing="true" growingScrollToLoad="true" autoPopinMode="true" noDataText="Aucun client disponible" updateFinished="onTableUpdateFinished">
+                                    <customData>
+                                        <core:CustomData key="entity" value="clients"/>
+                                    </customData>
+                                    <columns>
+                                        <Column width="12rem"><Text text="Id"/></Column>
+                                        <Column width="12rem"><Text text="Prénom"/></Column>
+                                        <Column width="12rem"><Text text="Nom"/></Column>
+                                        <Column width="10rem"><Text text="Date de naissance"/></Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem type="Inactive">
+                                            <cells>
+                                                <Text text="{ui>Id}"/>
+                                                <Text text="{ui>Prenom}"/>
+                                                <Text text="{ui>Nom}"/>
+                                                <Text text="{path: 'ui>Datenaissance', formatter: '.formatter.formatDate'}"/>
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </VBox>
+                        </IconTabFilter>
+
+                        <IconTabFilter text="{= 'Employés (' + ${ui>/counts/employes} + ')' }" icon="sap-icon://employee" key="employes">
+                            <VBox id="employesSection">
+                                <Toolbar id="employesToolbar">
+                                    <Title text="Employés" level="H2"/>
+                                    <ToolbarSpacer/>
+                                    <Button text="Nouveau" type="Emphasized" icon="sap-icon://add" press="onCreatePress">
+                                        <customData>
+                                            <core:CustomData key="entity" value="employes"/>
+                                        </customData>
+                                    </Button>
+                                    <Button text="Modifier" icon="sap-icon://edit" press="onEditPress">
+                                        <customData>
+                                            <core:CustomData key="entity" value="employes"/>
+                                        </customData>
+                                    </Button>
+                                    <Button text="Supprimer" icon="sap-icon://delete" press="onDeletePress">
+                                        <customData>
+                                            <core:CustomData key="entity" value="employes"/>
+                                        </customData>
+                                    </Button>
+                                    <Button text="Rafraîchir" icon="sap-icon://refresh" press="onRefreshPress">
+                                        <customData>
+                                            <core:CustomData key="entity" value="employes"/>
+                                        </customData>
+                                    </Button>
+                                </Toolbar>
+                                <Table id="employeTable" items="{ui>/employes}" mode="SingleSelectLeft" growing="true" growingScrollToLoad="true" autoPopinMode="true" noDataText="Aucun employé disponible" updateFinished="onTableUpdateFinished">
+                                    <customData>
+                                        <core:CustomData key="entity" value="employes"/>
+                                    </customData>
+                                    <columns>
+                                        <Column width="12rem"><Text text="Id"/></Column>
+                                        <Column width="12rem"><Text text="Prénom"/></Column>
+                                        <Column width="12rem"><Text text="Nom"/></Column>
+                                        <Column width="10rem"><Text text="Date de naissance"/></Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem type="Inactive">
+                                            <cells>
+                                                <Text text="{ui>Id}"/>
+                                                <Text text="{ui>Prenom}"/>
+                                                <Text text="{ui>Nom}"/>
+                                                <Text text="{path: 'ui>Datenaissance', formatter: '.formatter.formatDate'}"/>
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </VBox>
+                        </IconTabFilter>
+
+                        <IconTabFilter text="{= 'Factures (' + ${ui>/counts/factures} + ')' }" icon="sap-icon://sales-order" key="factures">
+                            <VBox id="facturesSection">
+                                <Toolbar id="facturesToolbar">
+                                    <Title text="Factures" level="H2"/>
+                                    <ToolbarSpacer/>
+                                    <Button text="Créer Facture" type="Emphasized" icon="sap-icon://add" press="onFactureCreatePress"/>
+                                    <Button text="Rafraîchir" icon="sap-icon://refresh" press="onRefreshPress">
+                                        <customData>
+                                            <core:CustomData key="entity" value="factures"/>
+                                        </customData>
+                                    </Button>
+                                    <Button text="Exporter PDF" icon="sap-icon://pdf-attachment" press="onExportFacturesPdf"/>
+                                    <Button text="Exporter Excel" icon="sap-icon://excel-attachment" press="onExportFactures"/>
+                                </Toolbar>
+                                <VBox id="factureFiltersBox">
+                                    <HBox id="factureFiltersRow1" wrap="Wrap">
+                                        <VBox>
+                                            <Label text="Filtre ID"/>
+                                            <Input value="{ui>/factureFilters/Id}" liveChange="onFactureFilterChange" placeholder="UUID facture"/>
+                                        </VBox>
+                                        <VBox>
+                                            <Label text="Filtre Client ID"/>
+                                            <Input value="{ui>/factureFilters/Clientid}" liveChange="onFactureFilterChange" placeholder="UUID client"/>
+                                        </VBox>
+                                        <VBox>
+                                            <Label text="Filtre Nom Complet Client"/>
+                                            <Input value="{ui>/factureFilters/Clientfullname}" liveChange="onFactureFilterChange" placeholder="Nom complet"/>
+                                        </VBox>
+                                        <VBox>
+                                            <Label text="Filtre Voiture ID"/>
+                                            <Input value="{ui>/factureFilters/Voitureid}" liveChange="onFactureFilterChange" placeholder="UUID voiture"/>
+                                        </VBox>
+                                        <VBox>
+                                            <Label text="Filtre Montant"/>
+                                            <Input value="{ui>/factureFilters/Amount}" liveChange="onFactureFilterChange" placeholder="ex: 1500"/>
+                                        </VBox>
+                                    </HBox>
+                                    <HBox id="factureFiltersRow2" wrap="Wrap">
+                                        <VBox>
+                                            <Label text="Filtre Devise"/>
+                                            <Input value="{ui>/factureFilters/Devise}" liveChange="onFactureFilterChange" placeholder="EUR"/>
+                                        </VBox>
+                                        <VBox>
+                                            <Label text="Filtre par Utilisateur"/>
+                                            <Input value="{ui>/factureFilters/Createdby}" liveChange="onFactureFilterChange" placeholder="Utilisateur"/>
+                                        </VBox>
+                                        <VBox>
+                                            <Label text="Filtre Date création"/>
+                                            <DatePicker value="{ui>/factureFilters/Createdat}" valueFormat="yyyy-MM-dd" displayFormat="medium" change="onFactureFilterChange"/>
+                                        </VBox>
+                                        <VBox>
+                                            <Label text="Filtre Compteur"/>
+                                            <Input value="{ui>/factureFilters/Counter}" liveChange="onFactureFilterChange" placeholder="ex: 1"/>
+                                        </VBox>
+                                        <VBox>
+                                            <Label text=" "/>
+                                            <Button text="Vider filtres" icon="sap-icon://clear-filter" press="onClearFactureFilters"/>
+                                        </VBox>
+                                    </HBox>
+                                </VBox>
+                                <Table id="factureTable" class="zyegFactureTable" items="{ui>/facturesFiltered}" mode="None" growing="true" growingScrollToLoad="true" autoPopinMode="true" sticky="ColumnHeaders" noDataText="Aucune facture disponible" updateFinished="onTableUpdateFinished">
+                                    <customData>
+                                        <core:CustomData key="entity" value="factures"/>
+                                    </customData>
+                                    <columns>
+                                        <Column width="12rem"><Text text="Id"/></Column>
+                                        <Column width="12rem"><Text text="Client ID"/></Column>
+                                        <Column width="18rem"><Text text="Nom complet"/></Column>
+                                        <Column width="12rem"><Text text="Voiture id"/></Column>
+                                        <Column width="10rem"><Text text="Montant"/></Column>
+                                        <Column width="9rem"><Text text="Devise"/></Column>
+                                        <Column width="12rem"><Text text="Créé par"/></Column>
+                                        <Column width="13rem"><Text text="Créé le"/></Column>
+                                        <Column width="9rem"><Text text="Compteur"/></Column>
+                                        <Column width="16rem" hAlign="Center"><Text text="Actions"/></Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem type="Inactive">
+                                            <cells>
+                                                <Text text="{ui>Id}" wrapping="true" tooltip="{ui>Id}"/>
+                                                <Text text="{ui>Clientid}" wrapping="true" tooltip="{ui>Clientid}"/>
+                                                <Text text="{ui>Clientfullname}" wrapping="true" tooltip="{ui>Clientfullname}"/>
+                                                <Text text="{ui>Voitureid}" wrapping="true" tooltip="{ui>Voitureid}"/>
+                                                <Text text="{path: 'ui>Amount', formatter: '.formatter.formatAmount'}"/>
+                                                <Text text="{ui>Devise}"/>
+                                                <Text text="{ui>Createdby}"/>
+                                                <Text text="{path: 'ui>Createdat', formatter: '.formatter.formatDateTime'}"/>
+                                                <Text text="{ui>Counter}"/>
+                                                <HBox id="factureActionsBox" class="zyegFactureActions" justifyContent="End" alignItems="Center" wrap="NoWrap">
+                                                    <Button text="Détails" icon="sap-icon://detail-view" tooltip="Détails" type="Transparent" press="onFactureDetailsPress"/>
+                                                    <Button text="Modifier" icon="sap-icon://edit" tooltip="Modifier" type="Transparent" press="onFactureUpdatePress"/>
+                                                    <Button text="PDF" icon="sap-icon://pdf-attachment" tooltip="Télécharger PDF" type="Transparent" press="onFacturePdfPress"/>
+                                                    <Button text="Supprimer" icon="sap-icon://delete" tooltip="Supprimer" type="Transparent" press="onFactureDeletePress"/>
+                                                </HBox>
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </VBox>
+                        </IconTabFilter>
+
+                        <IconTabFilter text="{= 'Voitures (' + ${ui>/counts/voitures} + ')' }" icon="sap-icon://car-rental" key="voitures">
+                            <VBox id="voituresSection">
+                                <Toolbar id="voituresToolbar">
+                                    <Title text="Voitures" level="H2"/>
+                                    <ToolbarSpacer/>
+                                    <Button text="Nouvelle" type="Emphasized" icon="sap-icon://add" press="onCreatePress">
+                                        <customData>
+                                            <core:CustomData key="entity" value="voitures"/>
+                                        </customData>
+                                    </Button>
+                                    <Button text="Modifier" icon="sap-icon://edit" press="onEditPress">
+                                        <customData>
+                                            <core:CustomData key="entity" value="voitures"/>
+                                        </customData>
+                                    </Button>
+                                    <Button text="Supprimer" icon="sap-icon://delete" press="onDeletePress">
+                                        <customData>
+                                            <core:CustomData key="entity" value="voitures"/>
+                                        </customData>
+                                    </Button>
+                                    <Button text="Rafraîchir" icon="sap-icon://refresh" press="onRefreshPress">
+                                        <customData>
+                                            <core:CustomData key="entity" value="voitures"/>
+                                        </customData>
+                                    </Button>
+                                </Toolbar>
+                                <Table id="voitureTable" items="{ui>/voitures}" mode="SingleSelectLeft" growing="true" growingScrollToLoad="true" autoPopinMode="true" noDataText="Aucune voiture disponible" updateFinished="onTableUpdateFinished">
+                                    <customData>
+                                        <core:CustomData key="entity" value="voitures"/>
+                                    </customData>
+                                    <columns>
+                                        <Column width="12rem"><Text text="Id"/></Column>
+                                        <Column width="12rem"><Text text="Matricule"/></Column>
+                                        <Column width="12rem"><Text text="Marque"/></Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem type="Inactive">
+                                            <cells>
+                                                <Text text="{ui>Id}"/>
+                                                <Text text="{ui>Matricule}"/>
+                                                <Text text="{ui>Marque}"/>
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </VBox>
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

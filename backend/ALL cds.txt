@@ -1,0 +1,177 @@
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'client definition'
+@Metadata.ignorePropagatedAnnotations: true
+define root view entity ZI_YEG_CLIENT as select from zyeg_client
+{
+    @UI.facet: [{ id: 'Id',
+     purpose: #STANDARD,
+     type: #IDENTIFICATION_REFERENCE,
+     label: 'Id Client',
+     position: 10 }]
+     @UI: {
+     lineItem: [{ position: 5, importance: #HIGH }],
+     identification: [{ position: 5, label: 'Id' }]
+     }
+     @Search.defaultSearchElement: true
+    key id as Id,
+    @UI: {
+     lineItem: [{ position: 10, importance: #HIGH }],
+     identification: [{ position: 10, label: 'Prenom' }]
+     }
+     @Search.defaultSearchElement: true
+    prenom as Prenom,
+    @UI: {
+     lineItem: [{ position: 15, importance: #HIGH }],
+     identification: [{ position: 15, label: 'Nom' }]
+     }
+     @Search.defaultSearchElement: true
+    nom as Nom,
+    @UI: {
+     lineItem: [{ position: 20, importance: #HIGH }],
+     identification: [{ position: 20, label: 'Date de naissance' }]
+     }
+     @Search.defaultSearchElement: true
+    datenaissance as Datenaissance
+}
+
+
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'employe definition'
+@Metadata.ignorePropagatedAnnotations: true
+define root view entity ZI_YEG_EMPLOYE as select from zyeg_employe
+{
+    @UI.facet: [{ id: 'Id',
+     purpose: #STANDARD,
+     type: #IDENTIFICATION_REFERENCE,
+     label: 'Id Employe',
+     position: 10 }]
+     @UI: {
+     lineItem: [{ position: 5, importance: #HIGH }],
+     identification: [{ position: 5, label: 'Id' }]
+     }
+     @Search.defaultSearchElement: true
+    key id as Id,
+    @UI: {
+     lineItem: [{ position: 10, importance: #HIGH }],
+     identification: [{ position: 10, label: 'Prenom' }]
+     }
+     @Search.defaultSearchElement: true
+    prenom as Prenom,
+    @UI: {
+     lineItem: [{ position: 15, importance: #HIGH }],
+     identification: [{ position: 15, label: 'Nom' }]
+     }
+     @Search.defaultSearchElement: true
+    nom as Nom,
+    @UI: {
+     lineItem: [{ position: 20, importance: #HIGH }],
+     identification: [{ position: 20, label: 'Prenom' }]
+     }
+     @Search.defaultSearchElement: true
+    datenaissance as Datenaissance
+}
+
+
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'facture definition'
+@Metadata.ignorePropagatedAnnotations: true
+define root view entity ZI_YEG_FACTURE as select from zyeg_facture
+{
+    @UI.facet: [{ id: 'Id',
+     purpose: #STANDARD,
+     type: #IDENTIFICATION_REFERENCE,
+     label: 'Id facture',
+     position: 10 }]
+     @UI: {
+     lineItem: [{ position: 5, importance: #HIGH }],
+     identification: [{ position: 5, label: 'Id' }]
+     }
+     @Search.defaultSearchElement: true
+    key id as Id,
+    @UI: {
+     lineItem: [{ position: 10, importance: #HIGH }],
+     identification: [{ position: 10, label: 'Client ID' }]
+     }
+     @Search.defaultSearchElement: true
+    key clientid as Clientid,
+    @UI: {
+     lineItem: [{ position: 15, importance: #HIGH }],
+     identification: [{ position: 15, label: 'Client full name' }]
+     }
+     @Search.defaultSearchElement: true
+    key clientfullname as Clientfullname,
+    @UI: {
+     lineItem: [{ position: 20, importance: #HIGH }],
+     identification: [{ position: 20, label: 'Voiture id' }]
+     }
+     @Search.defaultSearchElement: true
+     
+     voitureid as Voitureid,
+     @UI: {
+     lineItem: [{ position: 25, importance: #HIGH }],
+     identification: [{ position: 25, label: 'Amount' }]
+     }
+     @Search.defaultSearchElement: true
+    amount as Amount,
+    @UI: {
+     lineItem: [{ position: 30, importance: #HIGH }],
+     identification: [{ position: 30, label: 'Devise' }]
+     }
+     @Search.defaultSearchElement: true
+    devise as Devise,
+    @UI: {
+     lineItem: [{ position: 35, importance: #HIGH }],
+     identification: [{ position: 35, label: 'Created By' }]
+     }
+    @Search.defaultSearchElement: true
+    @Semantics.user.createdBy: true
+    createdby as Createdby,
+    @UI: {
+     lineItem: [{ position: 40, importance: #HIGH }],
+     identification: [{ position: 40, label: 'CreatedAt' }]
+     }
+     @Search.defaultSearchElement: true
+    @Semantics.systemDateTime.createdAt: true 
+    createdat as Createdat,
+    @UI: {
+     lineItem: [{ position: 45, importance: #HIGH }],
+     identification: [{ position: 45, label: 'Counter' }]
+     }
+     @Search.defaultSearchElement: true
+    counter as Counter
+}
+
+
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'voiture definition'
+@Metadata.ignorePropagatedAnnotations: true
+define root view entity ZI_YEG_VOITURE as select from zyeg_voit
+{
+    @UI.facet: [{ id: 'Id',
+     purpose: #STANDARD,
+     type: #IDENTIFICATION_REFERENCE,
+     label: 'ID voiture',
+     position: 5 }]
+     @UI: {
+     lineItem: [{ position: 5, importance: #HIGH }],
+     identification: [{ position: 5, label: 'Id' }]
+     }
+     @Search.defaultSearchElement: true
+    key id as Id,
+    @UI: {
+     lineItem: [{ position: 10, importance: #HIGH }],
+     identification: [{ position: 10, label: 'Matricule' }]
+     }
+     @Search.defaultSearchElement: true
+    key matricule as Matricule,
+    @UI: {
+     lineItem: [{ position: 15, importance: #HIGH }],
+     identification: [{ position: 15, label: 'Marque' }]
+     }
+     @Search.defaultSearchElement: true
+    marque as Marque
+    
+    
+}
+
+

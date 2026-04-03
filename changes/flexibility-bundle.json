@@ -1,0 +1,9 @@
+{
+	"loadModules": false,
+	"fileName": "flexibility-bundle.json",
+	"namespace": "apps/zyeg/changes/",
+	"changes": [],
+	"compVariants": [],
+	"variantChanges": [],
+	"variantDependentControlChanges": []
+}

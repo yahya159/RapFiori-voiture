@@ -1,0 +1,63 @@
+@EndUserText.label : 'client'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory : #TRANSPARENT
+@AbapCatalog.deliveryClass : #A
+@AbapCatalog.dataMaintenance : #RESTRICTED
+define table zyeg_client {
+
+  key client    : abap.clnt not null;
+  key id        : sysuuid_x16 not null;
+  prenom        : abap.char(40) not null;
+  nom           : abap.char(40) not null;
+  datenaissance : abap.dats;
+
+}
+
+@EndUserText.label : 'employe'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory : #TRANSPARENT
+@AbapCatalog.deliveryClass : #A
+@AbapCatalog.dataMaintenance : #RESTRICTED
+define table zyeg_employe {
+
+  key client    : abap.clnt not null;
+  key id        : sysuuid_x16 not null;
+  prenom        : abap.char(40) not null;
+  nom           : abap.char(40) not null;
+  datenaissance : abap.dats;
+
+}
+
+@EndUserText.label : 'facture'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory : #TRANSPARENT
+@AbapCatalog.deliveryClass : #A
+@AbapCatalog.dataMaintenance : #RESTRICTED
+define table zyeg_facture {
+
+  key client         : abap.clnt not null;
+  key id             : sysuuid_x16 not null;
+  key clientid       : sysuuid_x16 not null;
+  key clientfullname : abap.char(100) not null;
+  voitureid          : abap.char(200);
+  amount             : abap.dec(13,2);
+  devise             : abap.cuky;
+  createdby          : abap.char(12);
+  createdat          : timestampl;
+  counter            : abap.int4;
+
+}
+
+@EndUserText.label : 'table voiture'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory : #TRANSPARENT
+@AbapCatalog.deliveryClass : #A
+@AbapCatalog.dataMaintenance : #RESTRICTED
+define table zyeg_voit {
+
+  key client    : abap.clnt not null;
+  key id        : sysuuid_x16 not null;
+  key matricule : abap.char(20) not null;
+  marque        : abap.char(20);
+
+}

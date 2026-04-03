@@ -1,0 +1,64 @@
+managed implementation in class zbp_i_yeg_client unique;
+strict ( 2 );
+
+define behavior for ZI_YEG_CLIENT //alias <alias_name>
+persistent table zyeg_client
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create ( authorization : global );
+  update;
+  delete;
+  field (numbering : managed, readonly ) Id;
+}
+
+
+managed implementation in class zbp_i_yeg_employe unique;
+strict ( 2 );
+
+define behavior for ZI_YEG_EMPLOYE //alias <alias_name>
+persistent table zyeg_employe
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create ( authorization : global );
+  update;
+  delete;
+  field ( numbering : managed, readonly ) Id;
+}
+
+managed implementation in class zbp_i_yeg_facture unique;
+strict ( 2 );
+
+define behavior for ZI_YEG_FACTURE //alias <alias_name>
+persistent table zyeg_facture
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create ( authorization : global );
+  update;
+  delete;
+  field ( numbering : managed, readonly) Id;
+  field ( readonly ) createdby, createdat, counter;
+
+  determination set_counter on modify { create; }
+}
+
+managed implementation in class zbp_i_yeg_voiture unique;
+strict ( 2 );
+
+define behavior for ZI_YEG_VOITURE //alias <alias_name>
+persistent table zyeg_voit
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create ( authorization : global );
+  update;
+  delete;
+  field ( numbering : managed, readonly) Id;
+}
+
