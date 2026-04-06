@@ -3,8 +3,10 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
     "sap/m/MessageToast",
+    "sap/m/SelectDialog",
+    "sap/m/StandardListItem",
     "sap/ui/core/library"
-], function (Controller, JSONModel, MessageBox, MessageToast, coreLibrary) {
+], function (Controller, JSONModel, MessageBox, MessageToast, SelectDialog, StandardListItem, coreLibrary) {
     "use strict";
 
     var ValueState = coreLibrary.ValueState;
@@ -93,6 +95,119 @@ sap.ui.define([
             oModel.setProperty("/Clientfullname", oClient ? ((oClient.Prenom || "") + " " + (oClient.Nom || "")).trim() : "");
             oEvent.getSource().setValueState(ValueState.None);
             oEvent.getSource().setValueStateText("");
+        },
+
+        onCreateClientValueHelp: function () {
+            var oModel = this.getView().getModel("create");
+            var aClients = oModel.getProperty("/clients") || [];
+            var aItems = aClients.map(function (oClient) {
+                var sName = ((oClient.Prenom || "") + " " + (oClient.Nom || "")).trim();
+
+                return {
+                    key: String(oClient.Id || ""),
+                    title: sName || String(oClient.Id || ""),
+                    description: String(oClient.Id || "")
+                };
+            });
+
+            this._openSimpleValueHelpDialog("Selectionner un client", aItems, function (oItem) {
+                var oClient = aClients.find(function (oRow) {
+                    return String(oRow.Id) === String(oItem.key);
+                });
+
+                oModel.setProperty("/Clientid", oItem.key);
+                oModel.setProperty("/Clientfullname", oClient ? ((oClient.Prenom || "") + " " + (oClient.Nom || "")).trim() : "");
+
+                var oClientSelect = this.byId("createClientSelect");
+
+                if (oClientSelect) {
+                    oClientSelect.setValueState(ValueState.None);
+                    oClientSelect.setValueStateText("");
+                }
+            }.bind(this));
+        },
+
+        onCreateClientNameValueHelp: function () {
+            this.onCreateClientValueHelp();
+        },
+
+        onCreateVoitureValueHelp: function () {
+            var oModel = this.getView().getModel("create");
+            var aVoitures = oModel.getProperty("/voitures") || [];
+            var aItems = aVoitures.map(function (oVoiture) {
+                var sMatricule = oVoiture.Matricule || "";
+                var sMarque = oVoiture.Marque || "";
+
+                return {
+                    key: String(oVoiture.Id || ""),
+                    title: (sMatricule + (sMarque ? (" - " + sMarque) : "")).trim() || "Aucune",
+                    description: String(oVoiture.Id || "")
+                };
+            });
+
+            this._openSimpleValueHelpDialog("Selectionner une voiture", aItems, function (oItem) {
+                oModel.setProperty("/Voitureid", oItem.key);
+            });
+        },
+
+        onCreateDeviseValueHelp: function () {
+            var oModel = this.getView().getModel("create");
+
+            this._openSimpleValueHelpDialog("Selectionner une devise", this._getDeviseValueHelpItems(), function (oItem) {
+                oModel.setProperty("/Devise", (oItem.key || "").toUpperCase());
+
+                var oDeviseInput = this.byId("createDeviseInput");
+
+                if (oDeviseInput) {
+                    oDeviseInput.setValueState(ValueState.None);
+                    oDeviseInput.setValueStateText("");
+                }
+            }.bind(this));
+        },
+
+        _getDeviseValueHelpItems: function () {
+            return [
+                { key: "EUR", title: "EUR", description: "Euro" },
+                { key: "USD", title: "USD", description: "Dollar americain" },
+                { key: "MAD", title: "MAD", description: "Dirham marocain" },
+                { key: "GBP", title: "GBP", description: "Livre sterling" },
+                { key: "CHF", title: "CHF", description: "Franc suisse" }
+            ];
+        },
+
+        _openSimpleValueHelpDialog: function (sTitle, aItems, fnOnSelect) {
+            var oDialog = new SelectDialog({
+                title: sTitle,
+                noDataText: "Aucune donnee",
+                searchPlaceholder: "Rechercher",
+                confirm: function (oEvent) {
+                    var oSelectedItem = oEvent.getParameter("selectedItem");
+
+                    if (oSelectedItem && typeof fnOnSelect === "function") {
+                        var oSelectedData = oSelectedItem.getBindingContext("vh").getObject();
+
+                        fnOnSelect(oSelectedData);
+                    }
+
+                    oDialog.destroy();
+                },
+                cancel: function () {
+                    oDialog.destroy();
+                }
+            });
+
+            oDialog.setModel(new JSONModel({ items: aItems || [] }), "vh");
+            oDialog.bindAggregation("items", {
+                path: "vh>/items",
+                template: new StandardListItem({
+                    title: "{vh>title}",
+                    description: "{vh>description}",
+                    info: "{vh>key}"
+                })
+            });
+
+            this.getView().addDependent(oDialog);
+            oDialog.open();
         },
 
         onCreateFieldLiveChange: function (oEvent) {

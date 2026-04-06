@@ -309,6 +309,36 @@
 	background: #fef2f2;
 }
 
+@media (max-width: 768px) {
+	.zyegFactureTable,
+	#application-app-preview-component---Main--factureTable {
+		border-radius: 0.6rem;
+	}
+
+	.zyegFactureTable .sapMListTblCell,
+	#application-app-preview-component---Main--factureTable .sapMListTblCell {
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+	}
+
+	.zyegFactureActions {
+		justify-content: flex-start;
+		align-items: stretch;
+		gap: 0.4rem;
+		width: 100%;
+	}
+
+	.zyegFactureActions .sapMBtn {
+		flex: 1 1 calc(50% - 0.2rem);
+		min-width: 8.25rem;
+	}
+
+	.zyegFactureActions .sapMBtnInner {
+		width: 100%;
+		justify-content: center;
+	}
+}
+
 .zyegFieldRow {
 	gap: var(--zyeg-space-1);
 	margin-bottom: var(--zyeg-space-3);

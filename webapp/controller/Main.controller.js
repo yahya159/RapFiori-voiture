@@ -8,6 +8,8 @@ sap.ui.define([
     "sap/m/Label",
     "sap/m/MessageBox",
     "sap/m/MessageToast",
+    "sap/m/SelectDialog",
+    "sap/m/StandardListItem",
     "sap/m/Text",
     "sap/m/VBox",
     "sap/ui/core/library",
@@ -24,6 +26,8 @@ sap.ui.define([
     Label,
     MessageBox,
     MessageToast,
+    SelectDialog,
+    StandardListItem,
     Text,
     VBox,
     coreLibrary,
@@ -514,6 +518,154 @@ sap.ui.define([
 
             oEvent.getSource().setValueState(ValueState.None);
             oEvent.getSource().setValueStateText("");
+        },
+
+        onFactureEditClientValueHelp: function () {
+            this._openFactureClientValueHelp("/factureEdit", "factureEditClientSelect");
+        },
+
+        onFactureEditClientNameValueHelp: function () {
+            this._openFactureClientValueHelp("/factureEdit", "factureEditClientSelect");
+        },
+
+        onFactureEditVoitureValueHelp: function () {
+            this._openFactureVoitureValueHelp("/factureEdit");
+        },
+
+        onFactureEditDeviseValueHelp: function () {
+            var oUiModel = this._getUiModel();
+
+            this._openSimpleValueHelpDialog("Selectionner une devise", this._getFactureDeviseValueHelpItems(), function (oItem) {
+                oUiModel.setProperty("/factureEdit/data/Devise", (oItem.key || "").toUpperCase());
+
+                var oDeviseInput = Fragment.byId(this.getView().getId(), "factureEditDeviseInput");
+
+                if (oDeviseInput) {
+                    oDeviseInput.setValueState(ValueState.None);
+                    oDeviseInput.setValueStateText("");
+                }
+            }.bind(this));
+        },
+
+        onFactureCreateClientValueHelp: function () {
+            this._openFactureClientValueHelp("/factureCreate", "factureCreateClientSelect");
+        },
+
+        onFactureCreateClientNameValueHelp: function () {
+            this._openFactureClientValueHelp("/factureCreate", "factureCreateClientSelect");
+        },
+
+        onFactureCreateVoitureValueHelp: function () {
+            this._openFactureVoitureValueHelp("/factureCreate");
+        },
+
+        onFactureCreateDeviseValueHelp: function () {
+            var oUiModel = this._getUiModel();
+
+            this._openSimpleValueHelpDialog("Selectionner une devise", this._getFactureDeviseValueHelpItems(), function (oItem) {
+                oUiModel.setProperty("/factureCreate/data/Devise", (oItem.key || "").toUpperCase());
+
+                var oDeviseInput = Fragment.byId(this.getView().getId(), "factureCreateDeviseInput");
+
+                if (oDeviseInput) {
+                    oDeviseInput.setValueState(ValueState.None);
+                    oDeviseInput.setValueStateText("");
+                }
+            }.bind(this));
+        },
+
+        _openFactureClientValueHelp: function (sRootPath, sClientControlId) {
+            var oUiModel = this._getUiModel();
+            var aClients = oUiModel.getProperty(sRootPath + "/clients") || [];
+            var aItems = aClients.map(function (oClient) {
+                var sName = ((oClient.Prenom || "") + " " + (oClient.Nom || "")).trim();
+
+                return {
+                    key: String(oClient.Id || ""),
+                    title: sName || String(oClient.Id || ""),
+                    description: String(oClient.Id || "")
+                };
+            });
+
+            this._openSimpleValueHelpDialog("Selectionner un client", aItems, function (oItem) {
+                var oClient = aClients.find(function (oRow) {
+                    return String(oRow.Id) === String(oItem.key);
+                });
+
+                oUiModel.setProperty(sRootPath + "/data/Clientid", oItem.key);
+                oUiModel.setProperty(sRootPath + "/data/Clientfullname", oClient ? ((oClient.Prenom || "") + " " + (oClient.Nom || "")).trim() : "");
+
+                var oClientControl = Fragment.byId(this.getView().getId(), sClientControlId);
+
+                if (oClientControl) {
+                    oClientControl.setValueState(ValueState.None);
+                    oClientControl.setValueStateText("");
+                }
+            }.bind(this));
+        },
+
+        _openFactureVoitureValueHelp: function (sRootPath) {
+            var oUiModel = this._getUiModel();
+            var aVoitures = oUiModel.getProperty(sRootPath + "/voitures") || [];
+            var aItems = aVoitures.map(function (oVoiture) {
+                var sMatricule = oVoiture.Matricule || "";
+                var sMarque = oVoiture.Marque || "";
+
+                return {
+                    key: String(oVoiture.Id || ""),
+                    title: (sMatricule + (sMarque ? (" - " + sMarque) : "")).trim() || "Aucune",
+                    description: String(oVoiture.Id || "")
+                };
+            });
+
+            this._openSimpleValueHelpDialog("Selectionner une voiture", aItems, function (oItem) {
+                oUiModel.setProperty(sRootPath + "/data/Voitureid", oItem.key);
+            });
+        },
+
+        _getFactureDeviseValueHelpItems: function () {
+            return [
+                { key: "EUR", title: "EUR", description: "Euro" },
+                { key: "USD", title: "USD", description: "Dollar americain" },
+                { key: "MAD", title: "MAD", description: "Dirham marocain" },
+                { key: "GBP", title: "GBP", description: "Livre sterling" },
+                { key: "CHF", title: "CHF", description: "Franc suisse" }
+            ];
+        },
+
+        _openSimpleValueHelpDialog: function (sTitle, aItems, fnOnSelect) {
+            var oDialog = new SelectDialog({
+                title: sTitle,
+                noDataText: "Aucune donnee",
+                searchPlaceholder: "Rechercher",
+                confirm: function (oEvent) {
+                    var oSelectedItem = oEvent.getParameter("selectedItem");
+
+                    if (oSelectedItem && typeof fnOnSelect === "function") {
+                        var oSelectedData = oSelectedItem.getBindingContext("vh").getObject();
+
+                        fnOnSelect(oSelectedData);
+                    }
+
+                    oDialog.destroy();
+                },
+                cancel: function () {
+                    oDialog.destroy();
+                }
+            });
+
+            oDialog.setModel(new JSONModel({ items: aItems || [] }), "vh");
+            oDialog.bindAggregation("items", {
+                path: "vh>/items",
+                template: new StandardListItem({
+                    title: "{vh>title}",
+                    description: "{vh>description}",
+                    info: "{vh>key}"
+                })
+            });
+
+            this.getView().addDependent(oDialog);
+            oDialog.open();
         },
 
         onFactureCreateFieldLiveChange: function (oEvent) {

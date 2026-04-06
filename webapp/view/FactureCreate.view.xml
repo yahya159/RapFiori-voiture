@@ -10,27 +10,59 @@
                 <f:SimpleForm id="createForm" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
                     <f:content>
                         <Label text="Client" required="true" labelFor="createClientSelect"/>
-                        <Select id="createClientSelect" selectedKey="{create>/Clientid}" items="{create>/clients}" change="onClientChange" width="100%" forceSelection="false">
-                            <items>
-                                <core:Item key="{create>Id}" text="{= ${create>Prenom} + ' ' + ${create>Nom} }"/>
-                            </items>
-                        </Select>
+                        <HBox width="100%" alignItems="Center" renderType="Bare">
+                            <Select id="createClientSelect" selectedKey="{create>/Clientid}" items="{create>/clients}" change="onClientChange" width="100%" forceSelection="false">
+                                <layoutData>
+                                    <FlexItemData growFactor="1"/>
+                                </layoutData>
+                                <items>
+                                    <core:Item key="{create>Id}" text="{= ${create>Prenom} + ' ' + ${create>Nom} }"/>
+                                </items>
+                            </Select>
+                            <Button icon="sap-icon://value-help" type="Transparent" tooltip="Aide client" press="onCreateClientValueHelp"/>
+                        </HBox>
 
                         <Label text="Nom client" labelFor="createClientNameInput"/>
-                        <Input id="createClientNameInput" value="{create>/Clientfullname}" editable="false"/>
+                        <HBox width="100%" alignItems="Center" renderType="Bare">
+                            <Input id="createClientNameInput" value="{create>/Clientfullname}" editable="false" width="100%">
+                                <layoutData>
+                                    <FlexItemData growFactor="1"/>
+                                </layoutData>
+                            </Input>
+                            <Button icon="sap-icon://value-help" type="Transparent" tooltip="Aide nom client" press="onCreateClientNameValueHelp"/>
+                        </HBox>
 
                         <Label text="Voiture" labelFor="createVoitureSelect"/>
-                        <Select id="createVoitureSelect" selectedKey="{create>/Voitureid}" items="{create>/voitures}" width="100%" forceSelection="false">
-                            <items>
-                                <core:Item key="{create>Id}" text="{= ${create>Matricule} + ' - ' + ${create>Marque} }"/>
-                            </items>
-                        </Select>
+                        <HBox width="100%" alignItems="Center" renderType="Bare">
+                            <Select id="createVoitureSelect" selectedKey="{create>/Voitureid}" items="{create>/voitures}" width="100%" forceSelection="false">
+                                <layoutData>
+                                    <FlexItemData growFactor="1"/>
+                                </layoutData>
+                                <items>
+                                    <core:Item key="{create>Id}" text="{= ${create>Matricule} + ' - ' + ${create>Marque} }"/>
+                                </items>
+                            </Select>
+                            <Button icon="sap-icon://value-help" type="Transparent" tooltip="Aide voiture" press="onCreateVoitureValueHelp"/>
+                        </HBox>
 
                         <Label text="Montant" required="true" labelFor="createAmountInput"/>
-                        <Input id="createAmountInput" value="{create>/Amount}" type="Text" valueLiveUpdate="true" liveChange="onCreateFieldLiveChange"/>
+                        <HBox width="100%" alignItems="Center" renderType="Bare">
+                            <Input id="createAmountInput" value="{create>/Amount}" type="Text" valueLiveUpdate="true" liveChange="onCreateFieldLiveChange" width="100%">
+                                <layoutData>
+                                    <FlexItemData growFactor="1"/>
+                                </layoutData>
+                            </Input>
+                        </HBox>
 
                         <Label text="Devise" required="true" labelFor="createDeviseInput"/>
-                        <Input id="createDeviseInput" value="{create>/Devise}" maxLength="5" placeholder="EUR" valueLiveUpdate="true" liveChange="onCreateFieldLiveChange"/>
+                        <HBox width="100%" alignItems="Center" renderType="Bare">
+                            <Input id="createDeviseInput" value="{create>/Devise}" maxLength="5" placeholder="EUR" valueLiveUpdate="true" liveChange="onCreateFieldLiveChange" width="100%">
+                                <layoutData>
+                                    <FlexItemData growFactor="1"/>
+                                </layoutData>
+                            </Input>
+                            <Button icon="sap-icon://value-help" type="Transparent" tooltip="Aide devise" press="onCreateDeviseValueHelp"/>
+                        </HBox>
                     </f:content>
                 </f:SimpleForm>
 

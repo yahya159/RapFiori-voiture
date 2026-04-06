@@ -226,7 +226,7 @@
                                                 <Text text="{ui>Createdby}"/>
                                                 <Text text="{path: 'ui>Createdat', formatter: '.formatter.formatDateTime'}"/>
                                                 <Text text="{ui>Counter}"/>
-                                                <HBox id="factureActionsBox" class="zyegFactureActions" justifyContent="End" alignItems="Center" wrap="NoWrap">
+                                                <HBox id="factureActionsBox" class="zyegFactureActions" justifyContent="End" alignItems="Center" wrap="Wrap">
                                                     <Button text="Détails" icon="sap-icon://detail-view" tooltip="Détails" type="Transparent" press="onFactureDetailsPress"/>
                                                     <Button text="Modifier" icon="sap-icon://edit" tooltip="Modifier" type="Transparent" press="onFactureUpdatePress"/>
                                                     <Button text="PDF" icon="sap-icon://pdf-attachment" tooltip="Télécharger PDF" type="Transparent" press="onFacturePdfPress"/>

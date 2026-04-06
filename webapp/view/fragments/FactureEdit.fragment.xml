@@ -5,27 +5,59 @@
                 <f:SimpleForm id="factureEditForm" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
                     <f:content>
                         <Label text="Client" required="true" labelFor="factureEditClientSelect"/>
-                        <Select id="factureEditClientSelect" selectedKey="{ui>/factureEdit/data/Clientid}" items="{ui>/factureEdit/clients}" change="onFactureEditClientChange" width="100%" forceSelection="false">
-                            <items>
-                                <core:Item key="{ui>Id}" text="{= ${ui>Prenom} + ' ' + ${ui>Nom} }"/>
-                            </items>
-                        </Select>
+                        <HBox width="100%" alignItems="Center" renderType="Bare">
+                            <Select id="factureEditClientSelect" selectedKey="{ui>/factureEdit/data/Clientid}" items="{ui>/factureEdit/clients}" change="onFactureEditClientChange" width="100%" forceSelection="false">
+                                <layoutData>
+                                    <FlexItemData growFactor="1"/>
+                                </layoutData>
+                                <items>
+                                    <core:Item key="{ui>Id}" text="{= ${ui>Prenom} + ' ' + ${ui>Nom} }"/>
+                                </items>
+                            </Select>
+                            <Button icon="sap-icon://value-help" type="Transparent" tooltip="Aide client" press="onFactureEditClientValueHelp"/>
+                        </HBox>
 
                         <Label text="Nom client" labelFor="factureEditClientNameInput"/>
-                        <Input id="factureEditClientNameInput" value="{ui>/factureEdit/data/Clientfullname}" editable="false"/>
+                        <HBox width="100%" alignItems="Center" renderType="Bare">
+                            <Input id="factureEditClientNameInput" value="{ui>/factureEdit/data/Clientfullname}" editable="false" width="100%">
+                                <layoutData>
+                                    <FlexItemData growFactor="1"/>
+                                </layoutData>
+                            </Input>
+                            <Button icon="sap-icon://value-help" type="Transparent" tooltip="Aide nom client" press="onFactureEditClientNameValueHelp"/>
+                        </HBox>
 
                         <Label text="Voiture" labelFor="factureEditVoitureSelect"/>
-                        <Select id="factureEditVoitureSelect" selectedKey="{ui>/factureEdit/data/Voitureid}" items="{ui>/factureEdit/voitures}" width="100%" forceSelection="false">
-                            <items>
-                                <core:Item key="{ui>Id}" text="{= ${ui>Matricule} + ' - ' + ${ui>Marque} }"/>
-                            </items>
-                        </Select>
+                        <HBox width="100%" alignItems="Center" renderType="Bare">
+                            <Select id="factureEditVoitureSelect" selectedKey="{ui>/factureEdit/data/Voitureid}" items="{ui>/factureEdit/voitures}" width="100%" forceSelection="false">
+                                <layoutData>
+                                    <FlexItemData growFactor="1"/>
+                                </layoutData>
+                                <items>
+                                    <core:Item key="{ui>Id}" text="{= ${ui>Matricule} + ' - ' + ${ui>Marque} }"/>
+                                </items>
+                            </Select>
+                            <Button icon="sap-icon://value-help" type="Transparent" tooltip="Aide voiture" press="onFactureEditVoitureValueHelp"/>
+                        </HBox>
 
                         <Label text="Montant" required="true" labelFor="factureEditAmountInput"/>
-                        <Input id="factureEditAmountInput" value="{ui>/factureEdit/data/Amount}" type="Text" valueLiveUpdate="true" liveChange="onFactureEditFieldLiveChange"/>
+                        <HBox width="100%" alignItems="Center" renderType="Bare">
+                            <Input id="factureEditAmountInput" value="{ui>/factureEdit/data/Amount}" type="Text" valueLiveUpdate="true" liveChange="onFactureEditFieldLiveChange" width="100%">
+                                <layoutData>
+                                    <FlexItemData growFactor="1"/>
+                                </layoutData>
+                            </Input>
+                        </HBox>
 
                         <Label text="Devise" required="true" labelFor="factureEditDeviseInput"/>
-                        <Input id="factureEditDeviseInput" value="{ui>/factureEdit/data/Devise}" maxLength="5" valueLiveUpdate="true" liveChange="onFactureEditFieldLiveChange"/>
+                        <HBox width="100%" alignItems="Center" renderType="Bare">
+                            <Input id="factureEditDeviseInput" value="{ui>/factureEdit/data/Devise}" maxLength="5" valueLiveUpdate="true" liveChange="onFactureEditFieldLiveChange" width="100%">
+                                <layoutData>
+                                    <FlexItemData growFactor="1"/>
+                                </layoutData>
+                            </Input>
+                            <Button icon="sap-icon://value-help" type="Transparent" tooltip="Aide devise" press="onFactureEditDeviseValueHelp"/>
+                        </HBox>
                     </f:content>
                 </f:SimpleForm>
             </VBox>
